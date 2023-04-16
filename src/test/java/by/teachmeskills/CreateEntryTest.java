@@ -3,9 +3,6 @@ package by.teachmeskills;
 import by.teachmeskills.page.DiaryPage;
 import by.teachmeskills.page.LoginPage;
 import by.teachmeskills.page.WritingNotesPage;
-
-import org.testng.ITestContext;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,19 +13,17 @@ public class CreateEntryTest extends BaseTest {
 
     @Test
     public void createEntry() {
-        new LoginPage(driver).open().loginAsStandardUser();
-        WritingNotesPage entry = new DiaryPage(driver).createEntry();
-        assertThat(entry.isOpened()).isTrue().as("WritingNotesPage don't opened");
+        WritingNotesPage entry = new LoginPage(driver).open().loginAsStandardUser().createEntry();
+        assertThat(entry.isOpened()).isTrue().as("WritingNotesPage has not been opened");
         final String expNote = "test";
         new WritingNotesPage(driver).writeNote(expNote);
         List<String> actNote = new DiaryPage(driver).getAllNameNotes();
-        assertThat(actNote).as("Text of new" + expNote + "does not displayed").contains(expNote);
+        assertThat(actNote).as("Text of new" + expNote + "has not been displayed").contains(expNote);
     }
 
     @Test
     public void deleteEntry() {
-        new LoginPage(driver).open().loginAsStandardUser();
-        new DiaryPage(driver).createEntry();
+        new LoginPage(driver).open().loginAsStandardUser().createEntry();
         final String expectedNote = "test";
         new WritingNotesPage(driver).writeNote(expectedNote).deleteNotes();
         boolean entryDeleted = new DiaryPage(driver).isEntryDeleted();
@@ -38,10 +33,9 @@ public class CreateEntryTest extends BaseTest {
     @Test
     public void printEntry() {
         String test = "test";
-        new LoginPage(driver).open().loginAsStandardUser();
-        new DiaryPage(driver).createEntry();
+        new LoginPage(driver).open().loginAsStandardUser().createEntry();
         new WritingNotesPage(driver).writeNote(test);
         DiaryPage diaryPage = new DiaryPage(driver).printEntry();
-        assertThat(diaryPage.isOpenedPrintForm()).isTrue().as("Print form don't opened");
+        assertThat(diaryPage.switchToPrintForm()).isTrue().as("Print form has not been opened");
     }
 }

@@ -6,8 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DiaryPage extends BasePage {
@@ -27,6 +28,7 @@ public class DiaryPage extends BasePage {
     }
 
     public boolean isOpened() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SEARCH));
         return driver.findElement(SEARCH).isDisplayed();
     }
 
@@ -67,7 +69,12 @@ public class DiaryPage extends BasePage {
         return this;
     }
 
-    public boolean isOpenedPrintForm() {
+    public boolean switchToPrintForm() {
+        String currentWindow = driver.getWindowHandle();
+        Set<String> windowHandles = driver.getWindowHandles();
+        windowHandles.remove(currentWindow);
+        String printWindow = new LinkedList<>(windowHandles).getLast();
+        driver.switchTo().window(printWindow);
         wait.until(ExpectedConditions.visibilityOfElementLocated(PRINT_FORM));
         return driver.findElement(PRINT_FORM).isDisplayed();
     }

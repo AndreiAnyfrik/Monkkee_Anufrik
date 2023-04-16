@@ -29,7 +29,7 @@ public class RegistrationPage extends BasePage {
         return driver.findElement(LOCATOR_PAGE).isDisplayed();
     }
 
-    public SuccessfulRegistrationPage registration() {
+    public SuccessfulRegistrationPage getRegistration() {
         driver.findElement(EMAIL).sendKeys(EMAIL_USER);
         driver.findElement(PASSWORD).sendKeys(PASSWORD_USER);
         driver.findElement(PASSWORD_CONFIRMATION).sendKeys(CONFIRM_PASSWORD_USER);
@@ -39,7 +39,7 @@ public class RegistrationPage extends BasePage {
         return new SuccessfulRegistrationPage(driver);
     }
 
-    public RegistrationPage registrationAll(String email, String password, String confirmPassword) {
+    public RegistrationPage registerWithAllFields(String email, String password, String confirmPassword) {
         driver.findElement(EMAIL).sendKeys(email);
         driver.findElement(PASSWORD).sendKeys(password);
         driver.findElement(PASSWORD_CONFIRMATION).sendKeys(confirmPassword);

@@ -1,6 +1,5 @@
 package by.teachmeskills.page;
 
-import by.teachmeskills.page.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

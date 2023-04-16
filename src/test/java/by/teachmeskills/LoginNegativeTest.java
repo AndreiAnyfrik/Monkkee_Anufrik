@@ -1,11 +1,8 @@
 package by.teachmeskills;
 
-import by.teachmeskills.page.DiaryPage;
 import by.teachmeskills.page.LoginPage;
-import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginNegativeTest extends BaseTest {
@@ -23,6 +20,8 @@ public class LoginNegativeTest extends BaseTest {
     public void negativeLog(String userName, String password) {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.open().loginAs(userName, password);
-        Assert.assertFalse(loginPage.isErrorDisplayed(), "Error message is not displayed after invalid data");
+    //    Assert.assertFalse(loginPage.isErrorDisplayed(), "Error message is not displayed after invalid data");
+        assertThat(loginPage.isErrorDisplayed())
+                .isFalse().as("Error message is not displayed after invalid data");
     }
 }
