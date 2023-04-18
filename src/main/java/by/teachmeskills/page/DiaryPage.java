@@ -52,6 +52,7 @@ public class DiaryPage extends BasePage {
     }
 
     public boolean isEntryDeleted() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ENTRY_DELETED));
         return driver.findElement(ENTRY_DELETED).isDisplayed();
     }
 

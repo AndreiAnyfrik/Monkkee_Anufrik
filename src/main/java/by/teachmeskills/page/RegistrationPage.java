@@ -3,6 +3,7 @@ package by.teachmeskills.page;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Log4j2
 public class RegistrationPage extends BasePage {
@@ -51,6 +52,7 @@ public class RegistrationPage extends BasePage {
     }
 
     public boolean isErrorDisplayed() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR));
         return driver.findElement(ERROR).isDisplayed();
     }
 }

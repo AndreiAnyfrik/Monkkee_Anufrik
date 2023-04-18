@@ -4,6 +4,7 @@ import by.teachmeskills.page.LoginPage;
 import by.teachmeskills.page.RegistrationPage;
 import by.teachmeskills.page.SuccessfulRegistrationPage;
 import org.testng.annotations.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RegistrationPositiveTest extends BaseTest {

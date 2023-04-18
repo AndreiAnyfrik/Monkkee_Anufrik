@@ -18,15 +18,22 @@ public class LoginPage extends BasePage {
     private By ERROR = By.xpath("//div[@ng-show='formStatus']");
 
     public By LOGIN_PAGE_LOCATOR = By.xpath("//label[contains(@for,'login')]");
-    public By SEND_PASSWORD = By.xpath("//a[@href='/account/password_reminder']");
     public By REGISTER_BUTTON = By.xpath("//a[@href='/account/registration']");
     public By DONATE_BUTTON = By.xpath("//a[@ng-show='donationButtonVisible']");
-    public By EN_BUTTON = By.xpath("//span[text()='EN']");
     public By DE_BUTTON = By.xpath("//a[text()='DE']");
     public By FR_BUTTON = By.xpath("//a[text()='FR']");
     public By PT_BUTTON = By.xpath("//a[text()='PT']");
-    public static final String STANDARD_USER = "andrei311296@mail.ru";
-    public static final String STANDARD_PASSWORD = "5871839Aa";
+    private By LANGUAGE_TEXT = By.xpath("//div[contains(@class,'alert')]");
+    private By ERROR_INVALID_LOGIN = By.xpath("//form[@ng-hide='loggedIn']//div[@ng-show='formStatus']");
+    private By ERROR_EMPTY_LOGIN = By.xpath("//label[contains(text(), 'User')]//ancestor::" +
+            "div[contains(@class, 'form-group')]//div[contains(@class, 'help-block')]");
+    private By ERROR_EMPTY_PASSWORD = By.xpath("//label[contains(text(), 'Password')]//ancestor::" +
+            "div[contains(@class, 'form-group')]//div[contains(@class, 'help-block')]");
+
+    private static final String INVALID_LOGIN = "sdaa";
+    private static final String INVALID_PASSWORD = "588894";
+    private static final String EMPTY_LOGIN = "";
+    private static final String EMPTY_PASSWORD = "";
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -47,11 +54,15 @@ public class LoginPage extends BasePage {
     }
 
     public DiaryPage loginAsStandardUser() {
-        loginAs(STANDARD_USER, STANDARD_PASSWORD);
+        Properties properties = PropertiesLoader.loadProperties();
+        String username = properties.getProperty("username");
+        String password = properties.getProperty("password");
+        loginAs(username, password);
         return new DiaryPage(driver);
     }
 
     public boolean isErrorDisplayed() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR));
         return driver.findElement(ERROR).isDisplayed();
     }
 
@@ -71,18 +82,63 @@ public class LoginPage extends BasePage {
         return new DonatePage(driver);
     }
 
-    public DEPage changeDELanguage() {
+    public LoginPage openDEPage() {
         driver.findElement(DE_BUTTON).click();
-        return new DEPage(driver);
+        return new LoginPage(driver);
     }
 
-    public PTPage changePTLanguage() {
+    public LoginPage openPTPage() {
         driver.findElement(PT_BUTTON).click();
-        return new PTPage(driver);
+        return new LoginPage(driver);
     }
 
-    public FRPage changeFRLanguage() {
+    public LoginPage openFRPage() {
         driver.findElement(FR_BUTTON).click();
-        return new FRPage(driver);
+        return new LoginPage(driver);
+    }
+
+    public String checkLanguagePage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(LANGUAGE_TEXT));
+        String actResult = driver.findElement(LANGUAGE_TEXT).getText();
+        return actResult;
+    }
+
+    public String getErrorAfterInvalidUserNameAndInvalidPassword() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR_INVALID_LOGIN));
+        String actError = driver.findElement(ERROR_INVALID_LOGIN).getText();
+        return actError;
+    }
+
+    public String getErrorAfterEmptyLogin() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR_EMPTY_LOGIN));
+        String actError = driver.findElement(ERROR_EMPTY_LOGIN).getText();
+        return actError;
+    }
+
+    public String getErrorAfterEmptyPassword() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(ERROR_EMPTY_PASSWORD));
+        String actError = driver.findElement(ERROR_EMPTY_PASSWORD).getText();
+        return actError;
+    }
+
+    public LoginPage loginWithInvalidUserNameAndInvalidPassword() {
+        driver.findElement(USER_NAME).sendKeys(INVALID_LOGIN);
+        driver.findElement(PASSWORD).sendKeys(INVALID_PASSWORD);
+        driver.findElement(LOGIN_BUTTON).click();
+        return new LoginPage(driver);
+    }
+
+    public LoginPage loginWithAllEmptyFields() {
+        driver.findElement(USER_NAME).sendKeys(EMPTY_LOGIN);
+        driver.findElement(PASSWORD).sendKeys(EMPTY_PASSWORD);
+        driver.findElement(LOGIN_BUTTON).click();
+        return new LoginPage(driver);
+    }
+
+    public LoginPage loginWithEmptyPassword() {
+        driver.findElement(USER_NAME).sendKeys(INVALID_LOGIN);
+        driver.findElement(PASSWORD).sendKeys(EMPTY_PASSWORD);
+        driver.findElement(LOGIN_BUTTON).click();
+        return new LoginPage(driver);
     }
 }

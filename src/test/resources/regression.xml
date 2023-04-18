@@ -7,13 +7,15 @@
     </listeners>
     <test name="Tests for Chrome">
         <classes>
-            <class name="by.teachmeskills.FunctionalTest"/>
+            <class name="by.teachmeskills.ChangeLanguageTest"/>
+            <class name="by.teachmeskills.CheckDescriptionSettingsTest"/>
             <parameter name="browser" value="chrome"/>
         </classes>
     </test>
     <test name="Tests for Firefox">
         <classes>
-            <class name="by.teachmeskills.FunctionalTest"/>
+            <class name="by.teachmeskills.ChangeLanguageTest"/>
+            <class name="by.teachmeskills.CheckDescriptionSettingsTest"/>
             <parameter name="browser" value="firefox"/>
         </classes>
     </test>

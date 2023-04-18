@@ -3,6 +3,7 @@ package by.teachmeskills.page;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Log4j2
 public class WritingNotesPage extends BasePage {
@@ -15,6 +16,7 @@ public class WritingNotesPage extends BasePage {
     }
 
     public boolean isOpened() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(LOCATOR_PAGE));
         return driver.findElement(LOCATOR_PAGE).isDisplayed();
     }
 

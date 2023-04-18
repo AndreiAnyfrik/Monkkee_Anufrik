@@ -2,6 +2,7 @@ package by.teachmeskills.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SuccessfulRegistrationPage extends BasePage {
 
@@ -12,6 +13,7 @@ public class SuccessfulRegistrationPage extends BasePage {
     }
 
     public boolean isOpened() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(LOCATOR_PAGE));
         return driver.findElement(LOCATOR_PAGE).isDisplayed();
     }
 }

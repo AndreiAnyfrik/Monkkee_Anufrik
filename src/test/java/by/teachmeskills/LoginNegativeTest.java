@@ -1,27 +1,39 @@
 package by.teachmeskills;
 
 import by.teachmeskills.page.LoginPage;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LoginNegativeTest extends BaseTest {
 
-    @DataProvider
-    public Object[][] invalidCredentials() {
-        return new Object[][]{
-                {"", ""},
-                {"", "5871839Aa"},
-                {"andrei311296@mail.ru", ""}
-        };
+    @Test
+    public void invalidUserName() {
+        String expError = "Login failed";
+        String errorAfterInvalidUserNameAndInvalidPassword = new LoginPage(driver).open().loginWithInvalidUserNameAndInvalidPassword()
+                .getErrorAfterInvalidUserNameAndInvalidPassword();
+        assertThat(errorAfterInvalidUserNameAndInvalidPassword)
+                .isEqualTo(expError).as("Error message is not displayed after invalid data");
     }
 
-    @Test(dataProvider = "invalidCredentials")
-    public void negativeLog(String userName, String password) {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.open().loginAs(userName, password);
-    //    Assert.assertFalse(loginPage.isErrorDisplayed(), "Error message is not displayed after invalid data");
-        assertThat(loginPage.isErrorDisplayed())
-                .isFalse().as("Error message is not displayed after invalid data");
+    @Test
+    public void emptyPassword() {
+        String expError = "Mandatory field";
+        String errorAfterEmptyPassword = new LoginPage(driver).open().loginWithEmptyPassword()
+                .getErrorAfterEmptyPassword();
+        assertThat(errorAfterEmptyPassword)
+                .isEqualTo(expError).as("Error message is not displayed after invalid data");
     }
+
+    @Test
+    public void emptyAllFields() {
+        String expError = "Mandatory field";
+        String errorAfterEmptyPassword = new LoginPage(driver).open().loginWithAllEmptyFields().getErrorAfterEmptyPassword();
+        assertThat(errorAfterEmptyPassword)
+                .isEqualTo(expError).as("Error message is not displayed after invalid data");
+        String errorAfterEmptyPassword1 = new LoginPage(driver).getErrorAfterEmptyLogin();
+        assertThat(errorAfterEmptyPassword1)
+                .isEqualTo(expError).as("Error message is not displayed after invalid data");
+    }
+
 }
